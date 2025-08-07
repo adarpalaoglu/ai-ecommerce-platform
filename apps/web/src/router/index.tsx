@@ -1,23 +1,28 @@
-
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
 import App from '../App';
 import theme from '../theme';
+import { ProductListPage } from '../pages/products/ProductListPage';
+import ProductDetailPage from '../pages/products/ProductDetailPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <ProductListPage />,
+      },
+      {
+        path: '/products',
+        element: <ProductListPage />,
+      },
+      {
+        path: '/products/:id',
+        element: <ProductDetailPage />,
+      },
+    ],
   },
 ]);
 
-const AppRouter: React.FC = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  );
-};
-
-export default AppRouter;
+export const AppRouter = () => <RouterProvider router={router} />;
