@@ -1,0 +1,14 @@
+# Dependency folders
+node_modules/
+__pycache__/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS / Editor junk
+.DS_Store
+.vscode/
