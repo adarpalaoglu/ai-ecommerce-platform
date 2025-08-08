@@ -6,7 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+if os.getenv("TESTING"):
+    DATABASE_URL = "sqlite:///./test_auth.db"
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
