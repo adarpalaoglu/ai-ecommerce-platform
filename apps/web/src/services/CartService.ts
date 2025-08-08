@@ -35,8 +35,8 @@ export const CartService = {
     return response.data;
   },
 
-  async updateItemQuantity(itemId: string, quantity: number): Promise<CartItem> {
-    const response = await apiClient.put(`/api/cart/items/${itemId}`, { quantity });
+  async updateItemQuantity(itemId: string, productId: number, quantity: number): Promise<CartItem> {
+    const response = await apiClient.put(`/api/cart/items/${itemId}`, { product_id: productId, quantity });
     return response.data;
   },
 

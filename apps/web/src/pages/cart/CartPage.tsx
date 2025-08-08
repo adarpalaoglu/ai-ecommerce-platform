@@ -29,11 +29,11 @@ const CartPage: React.FC = () => {
     fetchCart();
   }, [setCart]);
 
-  const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
+  const handleUpdateQuantity = async (itemId: string, productId: number, newQuantity: number) => {
     if (newQuantity < 1) return;
     try {
-      const updatedItem = await CartService.updateItemQuantity(itemId, newQuantity);
-      updateItemQuantity(itemId, updatedItem.quantity);
+      await CartService.updateItemQuantity(itemId, productId, newQuantity);
+      updateItemQuantity(itemId, newQuantity);
     } catch (err) {
       console.error('Failed to update item quantity:', err);
       alert('Failed to update item quantity.');
@@ -88,18 +88,18 @@ const CartPage: React.FC = () => {
                   <Typography variant="body2" color="text.secondary">${item.product.price.toFixed(2)}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>
+                  <IconButton onClick={() => handleUpdateQuantity(item.id, parseInt(item.product.id), item.quantity - 1)}>
                     <RemoveIcon />
                   </IconButton>
                   <TextField
                     value={item.quantity}
-                    onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value))}
+                    onChange={(e) => handleUpdateQuantity(item.id, parseInt(item.product.id), parseInt(e.target.value))}
                     type="number"
                     inputProps={{ min: 1 }}
                     sx={{ width: 60, mx: 1, textAlign: 'center' }}
                     size="small"
                   />
-                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>
+                  <IconButton onClick={() => handleUpdateQuantity(item.id, parseInt(item.product.id), item.quantity + 1)}>
                     <AddIcon />
                   </IconButton>
                   <IconButton onClick={() => handleRemoveItem(item.id)} color="error">
