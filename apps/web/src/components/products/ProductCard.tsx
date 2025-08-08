@@ -7,7 +7,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -38,3 +38,5 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     </Card>
   );
 };
+
+export default ProductCard;

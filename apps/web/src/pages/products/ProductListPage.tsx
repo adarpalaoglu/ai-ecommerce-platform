@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Product } from '../../types';
 import { getAllProducts } from '../../services/productService';
-import { ProductCard } from '../../components/products/ProductCard';
+import ProductCard from '../../components/products/ProductCard';
 import { Box, CircularProgress, Typography, Grid } from '@mui/material';
 
 export const ProductListPage: React.FC = () => {
