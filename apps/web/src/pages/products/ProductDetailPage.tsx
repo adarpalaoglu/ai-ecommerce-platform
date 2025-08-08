@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Product } from '../../types';
+import { Product } from 'shared';
+import { CartService } from '../../services/CartService';
+import { useCartStore } from '../../store/cartStore';
 import { getProductById } from '../../services/productService'; // We will create this function
 import { Box, Typography, CircularProgress, Card, CardContent, CardMedia, Button } from '@mui/material';
 
@@ -9,6 +11,21 @@ const ProductDetailPage: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { addItem } = useCartStore();
+
+  const handleAddToCart = async () => {
+    if (product) {
+      try {
+        const cartItem = await CartService.addItem(parseInt(product.id), 1); // Convert product.id to integer
+        addItem(cartItem);
+        alert('Product added to cart!');
+      } catch (err) {
+        console.error('Failed to add product to cart:', err);
+        alert('Failed to add product to cart.');
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -82,7 +99,7 @@ const ProductDetailPage: React.FC = () => {
           <Typography variant="body2" color="text.secondary">
             In Stock: {product.stock}
           </Typography>
-          <Button variant="contained" color="primary" sx={{ mt: 3 }}>
+          <Button variant="contained" color="primary" sx={{ mt: 3 }} onClick={handleAddToCart}>
             Add to Cart
           </Button>
         </CardContent>

@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.4",
@@ -21,7 +22,8 @@
     "react-scripts": "^5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
-    "zustand": "^5.0.7"
+    "zustand": "^5.0.7",
+    "shared": "file:../../packages/shared"
   },
   "scripts": {
     "start": "react-scripts start",

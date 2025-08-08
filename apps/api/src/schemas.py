@@ -57,6 +57,7 @@ class CartItemCreate(CartItemBase):
 class CartItem(CartItemBase):
     id: int
     user_id: int
+    product: Product # Add this line
 
     class Config:
         from_attributes = True
