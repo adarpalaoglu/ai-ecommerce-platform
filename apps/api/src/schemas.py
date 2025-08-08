@@ -46,3 +46,17 @@ class User(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+class CartItemBase(BaseModel):
+    product_id: int
+    quantity: int
+
+class CartItemCreate(CartItemBase):
+    pass
+
+class CartItem(CartItemBase):
+    id: int
+    user_id: int
+
+    class Config:
+        from_attributes = True

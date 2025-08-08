@@ -7,12 +7,11 @@ from jose import JWTError, jwt
 from . import models, schemas, crud
 from .database import engine, SessionLocal
 from .functions.products.routes import products_router
+from .functions.cart.routes import cart_router
 
 import os
 
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-for-local-dev")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from .config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, oauth2_scheme
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -33,8 +32,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -54,6 +51,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 app.include_router(products_router, prefix="/api")
+app.include_router(cart_router, prefix="/api")
 
 @app.post("/api/auth/register", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
