@@ -52,6 +52,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 app.include_router(products_router, prefix="/api")
 app.include_router(cart_router, prefix="/api")
+from .functions.orders.main import router as orders_router
+app.include_router(orders_router, prefix="/api")
 
 @app.post("/api/auth/register", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):

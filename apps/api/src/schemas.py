@@ -43,6 +43,9 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
+class TokenData(BaseModel):
+    email: str | None = None
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -58,6 +61,33 @@ class CartItem(CartItemBase):
     id: int
     user_id: int
     product: Product # Add this line
+
+    class Config:
+        from_attributes = True
+
+class OrderItemCreate(BaseModel):
+    product_id: int
+    quantity: int
+    price: float
+
+class OrderItemResponse(OrderItemCreate):
+    id: int
+    order_id: int
+
+    class Config:
+        from_attributes = True
+
+class OrderCreate(BaseModel):
+    shipping_address_id: Optional[int] = None
+
+class OrderResponse(BaseModel):
+    id: int
+    user_id: int
+    order_date: str # Or datetime object if preferred
+    total_amount: float
+    status: str
+    shipping_address_id: Optional[int] = None
+    order_items: List[OrderItemResponse] = []
 
     class Config:
         from_attributes = True
