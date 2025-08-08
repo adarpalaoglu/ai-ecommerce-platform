@@ -33,7 +33,7 @@ To identify the next logical story based on project progress and epic definition
   - Completion Notes and Debug Log References
   - Implementation deviations and technical decisions
   - Challenges encountered and lessons learned
-- Extract relevant insights that inform the current story's preparation
+- Extract relevant insights that inform the current story\'s preparation
 
 ### 3. Gather Architecture Context
 
