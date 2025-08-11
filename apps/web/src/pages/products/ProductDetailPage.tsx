@@ -94,7 +94,7 @@ const ProductDetailPage: React.FC = () => {
             ${product.price.toFixed(2)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Category: {product.category}
+            Category: {product.category.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             In Stock: {product.stock}

@@ -32,9 +32,14 @@ function App() {
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
+            <>
+              <Button color="inherit" component={Link} to="/manage-products">
+                Manage Products
+              </Button>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
           )}
           <Box sx={{ border: '2px solid red', backgroundColor: '#3f51b5' }}>
             <CartIcon />

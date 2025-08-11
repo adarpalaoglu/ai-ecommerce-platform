@@ -1,5 +1,5 @@
 import React from 'react';
-import { Product } from '../../types';
+import { Product } from 'shared';
 import { Card, CardContent, CardMedia, Typography, Button, CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

@@ -7,6 +7,7 @@ import RegisterPage from '../pages/auth/RegisterPage';
 import LoginPage from '../pages/auth/LoginPage';
 import CartPage from '../pages/cart/CartPage';
 import ConfirmationPage from '../pages/confirmation/ConfirmationPage';
+import ManageProductsPage from '../pages/products/ManageProductsPage';
 // Removed OrderHistoryPage import
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/confirmation',
         element: <ConfirmationPage />,
+      },
+      {
+        path: '/manage-products',
+        element: <ManageProductsPage />,
       },
       // Removed route for '/orders'
     ],

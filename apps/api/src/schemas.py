@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pydantic import BaseModel
 from typing import Optional, List
 
@@ -7,13 +8,17 @@ class ProductBase(BaseModel):
     price: float
     image_url: Optional[str] = None
     stock: int
-    category_id: int
+    category: str
 
 class ProductCreate(ProductBase):
     pass
 
+class ProductUpdate(ProductBase):
+    id: int
+
 class Product(ProductBase):
     id: int
+    category: "Category" # Use string literal for forward reference
 
     class Config:
         from_attributes = True

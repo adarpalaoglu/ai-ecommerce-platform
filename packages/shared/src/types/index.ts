@@ -4,10 +4,23 @@ export interface Product {
   description: string;
   price: number;
   imageUrl: string;
-  category: string;
+  category: { name: string; id: number; };
   stock: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ProductCreate {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  category: string;
+  stock: number;
+}
+
+export interface ProductUpdate extends ProductCreate {
+  id: string;
 }
 
 export interface CartItem {

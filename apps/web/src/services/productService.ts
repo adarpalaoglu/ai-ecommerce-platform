@@ -1,96 +1,71 @@
-import { Product } from '../types';
+import { Product, ProductCreate, ProductUpdate } from 'shared';
 
 const API_BASE_URL = 'http://localhost:8000'; // Assuming your backend runs on this URL
 
 export const getAllProducts = async (): Promise<Product[]> => {
-  // Mock data for demonstration purposes
-  const mockProducts: Product[] = [
-    {
-      id: '1',
-      name: 'Mock Product 1',
-      description: 'This is a description for mock product 1.',
-      price: 10.99,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Electronics',
-      stock: 100,
-      createdAt: '2023-01-01T00:00:00Z',
-      updatedAt: '2023-01-01T00:00:00Z',
-    },
-    {
-      id: '2',
-      name: 'Mock Product 2',
-      description: 'This is a description for mock product 2.',
-      price: 20.50,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Books',
-      stock: 50,
-      createdAt: '2023-01-02T00:00:00Z',
-      updatedAt: '2023-01-02T00:00:00Z',
-    },
-    {
-      id: '3',
-      name: 'Mock Product 3',
-      description: 'This is a description for mock product 3.',
-      price: 5.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Food',
-      stock: 200,
-      createdAt: '2023-01-03T00:00:00Z',
-      updatedAt: '2023-01-03T00:00:00Z',
-    },
-  ];
-
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-
-  return mockProducts;
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/products`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: Product[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
 };
 
 export const getProductById = async (id: string): Promise<Product> => {
-  // Mock data for demonstration purposes
-  const mockProducts: Product[] = [
-    {
-      id: '1',
-      name: 'Mock Product 1',
-      description: 'This is a description for mock product 1.',
-      price: 10.99,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Electronics',
-      stock: 100,
-      createdAt: '2023-01-01T00:00:00Z',
-      updatedAt: '2023-01-01T00:00:00Z',
-    },
-    {
-      id: '2',
-      name: 'Mock Product 2',
-      description: 'This is a description for mock product 2.',
-      price: 20.50,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Books',
-      stock: 50,
-      createdAt: '2023-01-02T00:00:00Z',
-      updatedAt: '2023-01-02T00:00:00Z',
-    },
-    {
-      id: '3',
-      name: 'Mock Product 3',
-      description: 'This is a description for mock product 3.',
-      price: 5.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      category: 'Food',
-      stock: 200,
-      createdAt: '2023-01-03T00:00:00Z',
-      updatedAt: '2023-01-03T00:00:00Z',
-    },
-  ];
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/products/${id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: Product = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id}:`, error);
+    throw error;
+  }
+};
 
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 500));
+export const addProduct = async (product: ProductCreate): Promise<Product> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(product),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: Product = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw error;
+  }
+};
 
-  const product = mockProducts.find(p => p.id === id);
-  if (product) {
-    return product;
-  } else {
-    throw new Error(`Product with ID ${id} not found.`);
+export const updateProduct = async (product: ProductUpdate): Promise<Product> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/products/${product.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(product),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: Product = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error updating product with ID ${product.id}:`, error);
+    throw error;
   }
 };

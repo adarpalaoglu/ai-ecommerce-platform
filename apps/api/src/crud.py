@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from .models.category import Category # Import Category model
 from passlib.context import CryptContext
+from fastapi import HTTPException # Import HTTPException
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -28,12 +30,41 @@ def get_products(db: Session, skip: int = 0, limit: int = 100, category_id: int 
         query = query.order_by(models.Product.price.desc())
     return query.offset(skip).limit(limit).all()
 
+def get_categories(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Category).offset(skip).limit(limit).all()
+
 def create_product(db: Session, product: schemas.ProductCreate):
-    db_product = models.Product(**product.model_dump())
+    product_data = product.model_dump()
+    category_name = product_data.pop("category")
+    db_category = db.query(models.Category).filter(models.Category.name == category_name).first()
+    if db_category is None:
+        raise HTTPException(status_code=400, detail=f"Category '{category_name}' not found")
+    
+    db_product = models.Product(**product_data, category_id=db_category.id)
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
     return db_product
+
+def update_product(db: Session, product_id: int, product: schemas.ProductUpdate):
+    print(f"[DEBUG] update_product - Received product_id: {product_id}, product data: {product.model_dump()}")
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if db_product:
+        update_data = product.model_dump(exclude_unset=True)
+        if "category" in update_data:
+            category_name = update_data.pop("category")
+            db_category = db.query(models.Category).filter(models.Category.name == category_name).first()
+            if db_category is None:
+                raise HTTPException(status_code=400, detail=f"Category '{category_name}' not found")
+            db_product.category_id = db_category.id
+
+        for key, value in update_data.items():
+            setattr(db_product, key, value)
+        db.add(db_product)
+        db.commit()
+        db.refresh(db_product)
+        return db_product
+    return None
 
 def get_cart_items(db: Session, user_id: int):
     return db.query(models.CartItem).filter(models.CartItem.user_id == user_id).all()

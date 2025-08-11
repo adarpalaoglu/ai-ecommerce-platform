@@ -9,7 +9,7 @@ const mockProduct = {
   description: 'This is a test product',
   price: 10.99,
   imageUrl: 'http://example.com/image.jpg',
-  category: 'Electronics',
+  category: { name: 'Electronics', id: 1 },
   stock: 100,
   createdAt: '2023-01-01T00:00:00Z',
   updatedAt: '2023-01-01T00:00:00Z',

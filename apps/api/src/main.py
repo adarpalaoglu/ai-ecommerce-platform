@@ -20,8 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:3000",
+    "*",
 ]
 
 app.add_middleware(
@@ -52,6 +51,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 app.include_router(products_router, prefix="/api")
 app.include_router(cart_router, prefix="/api")
+from .functions.categories.routes import categories_router
+app.include_router(categories_router, prefix="/api")
 from .functions.orders.main import router as orders_router
 app.include_router(orders_router, prefix="/api")
 
@@ -80,3 +81,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+@app.options("/api/{path:path}")
+async def options_handler(path: str):
+    return {"Allow": "GET, POST, PUT, DELETE, OPTIONS"}
