@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, IconButton } from '@mui/material';
+import { Badge, IconButton } from '@mui/material'; // Removed Button import
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useCartStore } from '../../store/cartStore';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ const CartIcon: React.FC = () => {
   const handleCartClick = () => {
     navigate('/cart');
   };
+
+  // Removed handleHistoryClick function
 
   return (
     <IconButton color="inherit" onClick={handleCartClick}>

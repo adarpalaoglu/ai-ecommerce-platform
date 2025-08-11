@@ -5,27 +5,10 @@ from typing import List
 from apps.api.src import crud, schemas, models
 from apps.api.src.database import get_db
 from apps.api.src.config import oauth2_scheme, SECRET_KEY, ALGORITHM
+from apps.api.src.dependencies import get_current_user # Import from dependencies
 from jose import JWTError, jwt
 
 cart_router = APIRouter()
-
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    user = crud.get_user_by_email(db, email=email)
-    if user is None:
-        raise credentials_exception
-    return user
 
 @cart_router.get("/cart", response_model=List[schemas.CartItem])
 async def read_cart(user: schemas.User = Depends(get_current_user), db: Session = Depends(get_db)):

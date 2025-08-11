@@ -6,11 +6,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { CartItem } from 'shared';
 import { CartService } from '../../services/CartService';
 import { useCartStore } from '../../store/cartStore';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage: React.FC = () => {
-  const { items, setCart, removeItem, updateItemQuantity } = useCartStore();
+  const { items, setCart, removeItem, updateItemQuantity, clearCart } = useCartStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -47,6 +49,17 @@ const CartPage: React.FC = () => {
     } catch (err) {
       console.error('Failed to remove item:', err);
       alert('Failed to remove item.');
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      await CartService.createOrder();
+      clearCart();
+      navigate('/confirmation');
+    } catch (err) {
+      console.error('Failed to create order:', err);
+      alert('Failed to create order.');
     }
   };
 
@@ -115,7 +128,7 @@ const CartPage: React.FC = () => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleCheckout}>
               Proceed to Checkout
             </Button>
           </Box>

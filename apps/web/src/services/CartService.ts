@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartItem, Product } from 'shared';
+import { CartItem, Product } from 'shared'; // Removed Order import
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
 
@@ -42,5 +42,10 @@ export const CartService = {
 
   async removeItem(itemId: string): Promise<void> {
     await apiClient.delete(`/api/cart/items/${itemId}`);
+  },
+
+  async createOrder(): Promise<any> { // Changed Promise<Order> to Promise<any>
+    const response = await apiClient.post('/api/orders');
+    return response.data;
   },
 };

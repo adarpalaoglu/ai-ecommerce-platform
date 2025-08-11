@@ -70,24 +70,5 @@ class OrderItemCreate(BaseModel):
     quantity: int
     price: float
 
-class OrderItemResponse(OrderItemCreate):
-    id: int
-    order_id: int
-
-    class Config:
-        from_attributes = True
-
 class OrderCreate(BaseModel):
     shipping_address_id: Optional[int] = None
-
-class OrderResponse(BaseModel):
-    id: int
-    user_id: int
-    order_date: str # Or datetime object if preferred
-    total_amount: float
-    status: str
-    shipping_address_id: Optional[int] = None
-    order_items: List[OrderItemResponse] = []
-
-    class Config:
-        from_attributes = True

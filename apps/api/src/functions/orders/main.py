@@ -7,8 +7,8 @@ from apps.api.src.models.order import Order
 from apps.api.src.models.order_item import OrderItem
 from apps.api.src.models.product import Product
 from apps.api.src.models.cart import CartItem
-from apps.api.src.schemas import OrderCreate, OrderResponse, OrderItemCreate
-from apps.api.src.functions.auth import get_current_user # Assuming this exists for JWT auth
+from apps.api.src.schemas import OrderCreate
+from apps.api.src.dependencies import get_current_user # Import from dependencies
 
 router = APIRouter()
 
@@ -20,13 +20,12 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/orders", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/orders", status_code=status.HTTP_201_CREATED)
 def create_order(
-    order_data: OrderCreate, # This will likely be empty or contain shipping info, cart will be fetched
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user) # Assuming get_current_user returns a dict with 'id'
 ):
-    user_id = current_user['id']
+    user_id = current_user.id
 
     # 1. Retrieve the current user's cart contents
     cart_items = db.query(CartItem).filter(CartItem.user_id == user_id).all()
@@ -61,7 +60,7 @@ def create_order(
         user_id=user_id,
         total_amount=total_amount,
         status="Pending",
-        shipping_address_id=order_data.shipping_address_id # Assuming shipping_address_id comes from request
+        # shipping_address_id=order_data.shipping_address_id # Removed as order_data is no longer expected
     )
     db.add(new_order)
     db.flush() # Flush to get the new_order.id
@@ -82,5 +81,4 @@ def create_order(
     db.commit()
     db.refresh(new_order)
 
-    # 6. Return a confirmation of the newly created order
     return new_order

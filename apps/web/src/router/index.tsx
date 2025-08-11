@@ -6,6 +6,8 @@ import ProductDetailPage from '../pages/products/ProductDetailPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import LoginPage from '../pages/auth/LoginPage';
 import CartPage from '../pages/cart/CartPage';
+import ConfirmationPage from '../pages/confirmation/ConfirmationPage';
+// Removed OrderHistoryPage import
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,11 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <CartPage />,
       },
+      {
+        path: '/confirmation',
+        element: <ConfirmationPage />,
+      },
+      // Removed route for '/orders'
     ],
   },
 ]);
