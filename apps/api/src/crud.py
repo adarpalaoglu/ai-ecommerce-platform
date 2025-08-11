@@ -9,6 +9,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
+def get_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.User).offset(skip).limit(limit).all()
+
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = pwd_context.hash(user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_password)
@@ -117,3 +120,13 @@ def create_order(db: Session, user_id: int):
     
     db.refresh(db_order)
     return db_order
+
+def update_user_role(db: Session, user_id: int, new_role: str):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user:
+        db_user.role = new_role
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    return None

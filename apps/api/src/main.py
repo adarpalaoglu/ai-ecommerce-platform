@@ -55,6 +55,8 @@ from .functions.categories.routes import categories_router
 app.include_router(categories_router, prefix="/api")
 from .functions.orders.main import router as orders_router
 app.include_router(orders_router, prefix="/api")
+from .functions.users.routes import router as users_router
+app.include_router(users_router, prefix="/api")
 
 @app.post("/api/auth/register", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):

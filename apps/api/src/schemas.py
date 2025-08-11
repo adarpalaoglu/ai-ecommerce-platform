@@ -48,6 +48,9 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
+class UserRoleUpdate(BaseModel):
+    role: str
+
 class TokenData(BaseModel):
     email: str | None = None
 
