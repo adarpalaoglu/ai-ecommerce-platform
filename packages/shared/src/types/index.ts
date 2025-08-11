@@ -16,3 +16,25 @@ export interface CartItem {
   quantity: number;
   product: Product; // Assuming the product details are embedded
 }
+
+export interface Order {
+  id: string;
+  userId: string;
+  orderDate: string;
+  totalAmount: number;
+  status: string; // e.g., "Pending", "Shipped", "Delivered", "Cancelled"
+  shippingAddressId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
+  role?: 'customer' | 'manager' | 'admin'; // Added role for authorization
+}
