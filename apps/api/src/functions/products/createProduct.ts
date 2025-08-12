@@ -33,6 +33,8 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
         updatedAt: new Date().toISOString(),
       };
 
+      console.log('Attempting to save new product:', newProduct); // Temporary log
+
       const params = {
         TableName: 'Products', // Assuming a 'Products' table in DynamoDB
         Item: newProduct,

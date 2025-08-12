@@ -8,6 +8,7 @@ import LoginPage from '../pages/auth/LoginPage';
 import CartPage from '../pages/cart/CartPage';
 import ConfirmationPage from '../pages/confirmation/ConfirmationPage';
 import ManageProductsPage from '../pages/products/ManageProductsPage';
+import ManageUsersPage from '../pages/users/ManageUsersPage';
 // Removed OrderHistoryPage import
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/manage-products',
         element: <ManageProductsPage />,
+      },
+      {
+        path: '/manage-users',
+        element: <ManageUsersPage />,
       },
       // Removed route for '/orders'
     ],

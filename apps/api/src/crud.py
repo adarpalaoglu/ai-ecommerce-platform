@@ -50,10 +50,11 @@ def create_product(db: Session, product: schemas.ProductCreate):
     return db_product
 
 def update_product(db: Session, product_id: int, product: schemas.ProductUpdate):
-    print(f"[DEBUG] update_product - Received product_id: {product_id}, product data: {product.model_dump()}")
+    print(f"[DEBUG] crud.update_product - Received product_id: {product_id}, product data: {product.model_dump()}")
     db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
     if db_product:
         update_data = product.model_dump(exclude_unset=True)
+        print(f"[DEBUG] crud.update_product - update_data: {update_data}") # Added log
         if "category" in update_data:
             category_name = update_data.pop("category")
             db_category = db.query(models.Category).filter(models.Category.name == category_name).first()

@@ -36,6 +36,9 @@ function App() {
               <Button color="inherit" component={Link} to="/manage-products">
                 Manage Products
               </Button>
+              <Button color="inherit" component={Link} to="/manage-users">
+                Manage Users
+              </Button>
               <Button color="inherit" onClick={handleLogout}>
                 Logout
               </Button>

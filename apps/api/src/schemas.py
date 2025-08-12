@@ -1,20 +1,23 @@
 from __future__ import annotations
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 
 class ProductBase(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
-    image_url: Optional[str] = None
+    image_url: Optional[str] = Field(None, alias="imageUrl")
     stock: int
     category: str
+
+    class Config:
+        populate_by_name = True
 
 class ProductCreate(ProductBase):
     pass
 
 class ProductUpdate(ProductBase):
-    id: int
+    pass
 
 class Product(ProductBase):
     id: int

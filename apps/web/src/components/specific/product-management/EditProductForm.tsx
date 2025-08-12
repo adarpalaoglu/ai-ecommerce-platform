@@ -20,10 +20,8 @@ interface EditProductFormProps {
 const categories = [
   'Electronics',
   'Books',
-  'Food',
-  'Home',
-  'Apparel',
-  'Sports',
+  'Home Goods',
+  'Clothing',
 ];
 
 const EditProductForm: React.FC<EditProductFormProps> = ({
